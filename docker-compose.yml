@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  django_app:
+    image: django_app:latest
+    build:
+      context: .
+    ports:
+      - "9090:8000"
+    # environment:
+    #   - DATABASE_URL=postgres://django_user:secure_password@localhost:5432/django_db
+    volumes:
+      - ./static:/app/static
+
