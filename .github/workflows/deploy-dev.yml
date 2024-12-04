@@ -8,9 +8,9 @@ on:
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-  SERVER_HOST: ${{ secrets.DEV_HOST }}
+  SERVER_HOST: ${{ secrets.SERVER_HOST }}
   SERVER_USER: ${{ secrets.SERVER_USER }}
-  SERVER_SSH_KEY: ${{ secrets.DEV_SSH_KEY }}
+  SERVER_SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
     
 jobs:
   build:
@@ -42,5 +42,5 @@ jobs:
         key: $SERVER_SSH_KEY
         port: 22
         script: |
-          docker pull $DOCKER_USER/django_app:dev
-          docker service update --image $DOCKER_USER/django_app:dev afripoints
+          sudo docker pull $DOCKER_USER/django_app:dev
+          sudo docker service update --image $DOCKER_USER/django_app:dev afripoints
