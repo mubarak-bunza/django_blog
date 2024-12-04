@@ -16,6 +16,12 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v3
 
+    - name: Setup .env
+      run: |
+        echo "ENV=staging" >> .env
+        echo "PORT=${{ secrets.PORT }}" >> .env
+        echo "DB_URL=${{ secrets.DB_URL }}" >> .env
+
     - name: Build Docker image
       run: |
         docker build -t django_app:staging .

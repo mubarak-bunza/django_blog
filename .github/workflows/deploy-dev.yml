@@ -16,7 +16,7 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v3
 
-    - name: Setup .env
+    - name: Setup .env file
       run: |
         echo "ENV=dev" >> .env
         echo "PORT=${{ secrets.PORT }}" >> .env
