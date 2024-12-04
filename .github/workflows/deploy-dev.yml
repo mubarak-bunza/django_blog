@@ -33,6 +33,13 @@ jobs:
     environment: dev
     needs: build
     steps:
+    - name: Setup SSH for Deployment
+      run: |
+        mkdir -p ~/.ssh
+        echo "$DEV_SSH_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H $DEV_HOST >> ~/.ssh/known_hosts 
+      
     - name: Deploy to Development Environment
       run: |
         ssh -o StrictHostKeyChecking=no -i "$SSH_PRIVATE_KEY" ubuntu@$HOST << EOF
