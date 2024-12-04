@@ -8,8 +8,9 @@ on:
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
   DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-  SSH_PRIVATE_KEY: ${{ secrets.DEV_SSH_KEY }}
-  HOST: ${{ secrets.DEV_HOST }}
+  SERVER_HOST: ${{ secrets.DEV_HOST }}
+  SERVER_USER: ${{ secrets.SERVER_USER }}
+  SERVER_SSH_KEY: ${{ secrets.DEV_SSH_KEY }}
     
 jobs:
   build:
@@ -33,15 +34,13 @@ jobs:
     environment: dev
     needs: build
     steps:
-    - name: Setup SSH for Deployment
-      run: |
-        mkdir -p ~/.ssh
-        echo "$DEV_SSH_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H $DEV_HOST >> ~/.ssh/known_hosts 
-      
-    - name: Deploy to Development Environment
-      run: |
-        ssh -o StrictHostKeyChecking=no -i "$SSH_PRIVATE_KEY" ubuntu@$HOST << EOF
-        sudo docker service update --image $DOCKER_USER/django_app:dev afripoints
-        EOF
+    - name: Deploy Using SSH
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: $SERVER_HOST
+        username: $SERVER_USER
+        key: $SERVER_SSH_KEY
+        port: 22
+        script: |
+          docker pull $DOCKER_USER/django_app:dev
+          docker service update --image $DOCKER_USER/django_app:dev afripoints
