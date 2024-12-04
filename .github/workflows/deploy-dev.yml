@@ -35,6 +35,6 @@ jobs:
     steps:
     - name: Deploy to Development Environment
       run: |
-        ssh -o StrictHostKeyChecking=no -i "$DEV_SSH_KEY" ubuntu@$DEV_HOST << EOF
+        ssh -o StrictHostKeyChecking=no -i "$SSH_PRIVATE_KEY" ubuntu@$HOST << EOF
         sudo docker service update --image $DOCKER_USER/django_app:dev afripoints
         EOF
