@@ -2,13 +2,14 @@ version: '3.8'
 
 services:
   django_app:
-    image: django_app:latest
-    build:
-      context: .
+    image: mubarakbunza/django_app:latest
     ports:
-      - "9090:8000"
-    # environment:
-    #   - DATABASE_URL=postgres://django_user:secure_password@localhost:5432/django_db
+      - "8000:8000"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      - DATABASE_URL=postgres://django_user:secure_password@localhost:5432/django_db
     volumes:
       - ./static:/app/static
-
