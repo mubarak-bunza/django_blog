@@ -25,7 +25,7 @@ SECRET_KEY = '88-met%yvxkqz&=)r3e3%z6afahh(q+3f-kueoho@)owc0#mo3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-app-dev.duckdns.org','django-app-prod.duckdns.org']
+ALLOWED_HOSTS = ['django-app-dev.duckdns.org','django-app-staging.duckdns.org']
 
 
 # Application definition
