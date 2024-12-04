@@ -31,11 +31,10 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    environment: dev
     needs: build
     steps:
     - name: Deploy Using SSH
-      uses: appleboy/ssh-action@v0.1.7
+      uses: appleboy/ssh-action@v1.2.0
       with:
         host: $SERVER_HOST
         username: $SERVER_USER
