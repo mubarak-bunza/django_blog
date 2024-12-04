@@ -1,0 +1,40 @@
+name: Django App Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+  SSH_PRIVATE_KEY: ${{ secrets.DEV_SSH_KEY }}
+  HOST: ${{ secrets.DEV_HOST }}
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v3
+
+    - name: Build Docker image
+      run: |
+        docker build -t django_app:dev .
+
+    - name: Push Docker image to registry
+      run: |
+        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+        docker tag django_app:dev "$DOCKER_USER"/django_app:dev
+        docker push "$DOCKER_USER"/django_app:dev
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    needs: build
+    steps:
+    - name: Deploy to Development Environment
+      run: |
+        ssh -o StrictHostKeyChecking=no -i "$DEV_SSH_KEY" ubuntu@$DEV_HOST << EOF
+        sudo docker service update --image $DOCKER_USER/django_app:dev afripoints
+        EOF
