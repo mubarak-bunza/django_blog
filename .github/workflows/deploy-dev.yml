@@ -3,7 +3,7 @@ name: Django App Pipeline
 on:
   push:
     branches:
-      - develop
+      - dev
 
 env:
   DOCKER_USER: ${{ secrets.DOCKER_USER }}
