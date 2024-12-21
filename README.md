@@ -33,4 +33,4 @@ A simple Blog Application using Django
 
     python manage.py runserver
     
-   In your web browser enter the address : http://localhost:8000 or http://127.0.0.1:8000/
+   In your web browser enter the address: http://localhost:8000 or http://127.0.0.1:8000/
